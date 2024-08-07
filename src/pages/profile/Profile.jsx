@@ -3,8 +3,10 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import { MdModeEdit } from "react-icons/md";
+import { useAuthContet } from "../../context/AuthContext";
 
 const Profile = () => {
+    const { setAuthUser } = useAuthContet();
   const [loading, setLoading] = useState(false);
   const [selectedGender, setSelectedGender] = useState("");
   const [userLoading, setUserLoading] = useState(false);
@@ -17,6 +19,8 @@ const Profile = () => {
     password: "",
     profilePic: "",
   });
+
+  const [initialStore, setInitialStore] = useState({});
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -31,8 +35,6 @@ const Profile = () => {
       setProfilePicPreview(`/api/adminuploads/${store.profilePic}`);
     }
   }, [store.profilePic]);
-
-  console.log(store.profilePic);
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -58,6 +60,19 @@ const Profile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const isChanged =
+      store.fullname !== initialStore.fullname ||
+      store.username !== initialStore.username ||
+      store.email !== initialStore.email ||
+      (store.password && store.password !== "") ||
+      selectedGender !== initialStore.gender ||
+      profilePic;
+
+    if (!isChanged) {
+      toast.error("No changes detected");
+      return;
+    }
+
     try {
       setLoading(true);
       const formData = new FormData();
@@ -80,6 +95,7 @@ const Profile = () => {
       if (res.error) {
         throw new Error(res.error);
       }
+      setAuthUser(res)
       toast.success("Profile Upated");
       if (res.profilePic) {
         setProfilePicPreview(`/api/adminuploads/${res.profilePic}`);
@@ -100,6 +116,7 @@ const Profile = () => {
       setUserLoading(true);
       const response = await axios.get(`/api/api/admin/getuser/${id}`);
       setStore(response.data);
+      setInitialStore(response.data);
       setSelectedGender(response.data.gender);
     } catch (error) {
       console.log(error.message);
@@ -109,10 +126,8 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    if (id) {
       fetchData(id);
-    }
-  }, [id]);
+  }, []);
 
   return (
     <>

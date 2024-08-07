@@ -16,27 +16,6 @@ import axios from "axios"
 const Navbar = ({ isOpen, setIsOpen }) => {
   const { authUser } = useAuthContet();
   const { theme, toggleTheme } = useTheme();
-  const [ userData, setUserData ] = useState('');
-  const [ refresh, setRefresh ] = useState(false);
-
-  const { id } = useParams();
-  const fetchUser = async(id)=>{
-    try {
-      const response = await axios.get(`/api/api/admin/getuser/${id}`)
-      setUserData(response.data);
-      setRefresh(!refresh)
-    } catch (error) {
-      console.log(error.message);
-      toast.error(error.response.data.error)
-    }
-  }
-
-  useEffect(()=>{
-    if(id){
-      fetchUser(id)
-    }
-  },[id, refresh])
-
   return (
     <nav className="bg-gray-800 px-4 md:px-8 py-4 text-white fixed w-full top-0 z-10">
       <div className="mx-auto flex justify-between items-center">
@@ -49,7 +28,7 @@ const Navbar = ({ isOpen, setIsOpen }) => {
           </button>
             <div>
               <img
-                src={userData.profilePic ? `/api/adminuploads/${userData.profilePic}` : authUser.gender === 'male' ? `/logo/profile.png` : `/logo/woman.png`}
+                src={authUser.profilePic ? `/api/adminuploads/${authUser.profilePic}` : authUser.gender === 'male' ? `/logo/profile.png` : `/logo/woman.png`}
                 alt="user-image"
                 className="w-10 h-10 rounded-full object-cover object-top"
               />
