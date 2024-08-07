@@ -1,0 +1,13 @@
+{
+    "rewrites": [
+      {
+        "source": "/api/(.*)",
+        "destination": "https://verceltest-api.vercel.app/$1"
+      },
+      {
+        "source": "/(.*)",
+        "destination": "/"
+      }
+    ]
+  }
+  
