@@ -30,7 +30,7 @@ const Sidebar = ({ setIsOpen, isOpen }) => {
   };
 
   return (
-    <div className="flex">
+    <div className="">
       <div
         className={`bg-gray-800 text-white fixed h-full w-64 p-5 pt-8 mt-[62px] top-0 ${
           isOpen ? "w-52 md:w-64" : "p-[0px] w-[0px]"

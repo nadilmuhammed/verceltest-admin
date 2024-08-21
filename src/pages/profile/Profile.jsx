@@ -4,9 +4,11 @@ import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import { MdModeEdit } from "react-icons/md";
 import { useAuthContet } from "../../context/AuthContext";
+import { deleteObject, getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import app from "../../firebase/firebase.config";
 
 const Profile = () => {
-    const { setAuthUser } = useAuthContet();
+  const { setAuthUser, authUser } = useAuthContet();
   const [loading, setLoading] = useState(false);
   const [selectedGender, setSelectedGender] = useState("");
   const [userLoading, setUserLoading] = useState(false);
@@ -38,8 +40,9 @@ const Profile = () => {
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
-    setProfilePic(file);
-
+    if (file) {
+      setProfilePic(file);
+    }
     const reader = new FileReader();
     reader.onloadend = () => {
       setProfilePicPreview(reader.result);
@@ -75,17 +78,34 @@ const Profile = () => {
 
     try {
       setLoading(true);
-      const formData = new FormData();
-      formData.append("fullname", store.fullname);
-      formData.append("username", store.username);
-      formData.append("email", store.email);
-      if (store.password) {
-        formData.append("password", store.password);
-      }
+      let oldProfilePicUrl = store.profilePic;
+      let downloadURL = oldProfilePicUrl; // Default to existing image URL
       if (profilePic) {
-        formData.append("profilePic", profilePic);
+        const storage = getStorage(app);
+
+        // Delete the old profile picture from Firebase Storage
+        if (oldProfilePicUrl) {
+          const oldImageRef = ref(storage, oldProfilePicUrl);
+          await deleteObject(oldImageRef).catch((error) => {
+            console.error("Error deleting old image: ", error);
+          });
+        }
+
+        const storageRef = ref(storage, "adminimages/" + profilePic.name);
+        await uploadBytes(storageRef, profilePic);
+        downloadURL = await getDownloadURL(storageRef);
       }
-      formData.append("gender", selectedGender);
+
+      const formData = {
+        fullname: store.fullname,
+        username: store.username,
+        email: store.email,
+        profilePic: downloadURL,
+        gender: selectedGender,
+      };
+      if (store.password) {
+        formData.password = store.password;
+      }
       const update = await axios.put(
         `/api/api/admin/updateuser/${id}`,
         formData
@@ -95,11 +115,8 @@ const Profile = () => {
       if (res.error) {
         throw new Error(res.error);
       }
-      setAuthUser(res)
+      setAuthUser(res);
       toast.success("Profile Upated");
-      if (res.profilePic) {
-        setProfilePicPreview(`/api/adminuploads/${res.profilePic}`);
-      }
       setStore({
         password: "",
       });
@@ -111,12 +128,14 @@ const Profile = () => {
     }
   };
 
+
   const fetchData = async (id) => {
     try {
       setUserLoading(true);
       const response = await axios.get(`/api/api/admin/getuser/${id}`);
       setStore(response.data);
       setInitialStore(response.data);
+      setProfilePicPreview(response.data.profilePic)
       setSelectedGender(response.data.gender);
     } catch (error) {
       console.log(error.message);
@@ -126,7 +145,7 @@ const Profile = () => {
   };
 
   useEffect(() => {
-      fetchData(id);
+    fetchData(id);
   }, []);
 
   return (

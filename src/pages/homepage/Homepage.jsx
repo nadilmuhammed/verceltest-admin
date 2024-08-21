@@ -4,7 +4,7 @@ import { useTheme } from "../../context/ThemeContext";
 const Homepage = () => {
   const { theme } = useTheme();
   return (
-    <div className={theme === 'night' ? "text-white" : ""}>
+    <div className="text-justify">
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Error praesentium
       vel soluta voluptate iusto! Debitis, doloremque? Itaque, et? Culpa ipsam
       autem nisi quasi odio rerum esse delectus dolor, alias quisquam? Lorem
