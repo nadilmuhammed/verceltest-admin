@@ -34,7 +34,7 @@ const Profile = () => {
 
   useEffect(() => {
     if (store.profilePic) {
-      setProfilePicPreview(`/api/adminuploads/${store.profilePic}`);
+      setProfilePicPreview(store.profilePic);
     }
   }, [store.profilePic]);
 
