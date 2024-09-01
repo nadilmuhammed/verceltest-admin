@@ -25,9 +25,9 @@ const User = () => {
         <table className="min-w-full bg-white border border-gray-300">
           <thead>
             <tr>
-              <th className="px-6 py-3 border-b border-gray-300 text-left text-sm font-medium text-gray-700">User</th>
-              <th className="px-6 py-3 border-b border-gray-300 text-left text-sm font-medium text-gray-700">Email</th>
-              <th className="px-6 py-3 border-b border-gray-300 text-left text-sm font-medium text-gray-700">Actions</th>
+              <th className="px-6 py-3 border-b border-gray-300 text-left text-sm font-medium text-gray-700">Name</th>
+              <th className="px-6 py-3 border-b border-gray-300 text-left text-sm font-medium text-gray-700">Job</th>
+              <th className="px-6 py-3 border-b border-gray-300 text-left text-sm font-medium text-gray-700">Favor</th>
             </tr>
           </thead>
           <tbody>

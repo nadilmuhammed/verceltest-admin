@@ -1,5 +1,8 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import dotenv from "dotenv"
+
+dotenv.config();
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -7,17 +10,10 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://verceltest-api.vercel.app',
+        target: process.env.VITE_API_URL,
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
       },
     },
-    // proxy: {
-    //   '/api': {
-    //     target: 'http://localhost:5000',
-    //     changeOrigin: true,
-    //     rewrite: (path) => path.replace(/^\/api/, ''),
-    //   },
-    // },
   }
 })
