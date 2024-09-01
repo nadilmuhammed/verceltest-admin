@@ -9,9 +9,10 @@ import axios from "axios"
 import { useAuthContet } from "../context/AuthContext";
 import toast from "react-hot-toast";
 import { TiUser } from "react-icons/ti";
+import { IoIosCloseCircleOutline } from "react-icons/io";
 
 
-const Sidebar = ({ setIsOpen, isOpen }) => {
+const Sidebar = ({ setIsOpen, isOpen, handleClose }) => {
   const { setAuthUser, authUser } = useAuthContet();
   const handleLogout = async () => {
     try {
@@ -32,15 +33,19 @@ const Sidebar = ({ setIsOpen, isOpen }) => {
   return (
     <div className="">
       <div
-        className={`bg-gray-800 text-white fixed h-full w-64 p-5 pt-8 mt-[62px] top-0 ${
-          isOpen ? "w-52 md:w-64" : "p-[0px] w-[0px]"
+        className={`bg-gray-800 text-white fixed h-full w-64 px-5 py-5 top-0 ${
+          isOpen ? "w-52 md:w-64 mt-0 md:mt-[72px]" : "px-[0px] w-[0px]"
         } duration-300 z-20`}
       >
+        <div className="md:hidden flex justify-center items-center mb-3">
+          <button onClick={handleClose} className={`${isOpen ? "block" : "hidden"}`}><IoIosCloseCircleOutline size={35} /></button>
+        </div>
         <p className={`p-2 border-b w-full flex justify-center items-center gap-2 md:hidden ${isOpen ? "block" : "hidden"}`}><TiUser size={25} />{authUser.username}</p>
         <div className={`mt-10 ${isOpen ? "block" : "hidden"}`}>
           <Link
             to="/"
             className="text-gray-300 hover:bg-gray-700 hover:text-white p-2 rounded-md cursor-pointer flex items-center gap-2"
+            onClick={handleClose}
           >
             <MdDashboard size={20} />
             Dashboard
@@ -48,6 +53,7 @@ const Sidebar = ({ setIsOpen, isOpen }) => {
           <Link
             to="/users"
             className="text-gray-300 hover:bg-gray-700 hover:text-white p-2 rounded-md cursor-pointer flex items-center gap-2"
+            onClick={handleClose}
           >
             <LuUsers2 size={20} />
             Users
@@ -55,6 +61,7 @@ const Sidebar = ({ setIsOpen, isOpen }) => {
           <Link
             to="/"
             className="text-gray-300 hover:bg-gray-700 hover:text-white p-2 rounded-md cursor-pointer flex items-center gap-2"
+            onClick={handleClose}
           >
             <IoCartOutline size={20} />
             Orders
@@ -62,6 +69,7 @@ const Sidebar = ({ setIsOpen, isOpen }) => {
           <Link
             to="/"
             className="text-gray-300 hover:bg-gray-700 hover:text-white p-2 rounded-md cursor-pointer flex items-center gap-2"
+            onClick={handleClose}
           >
             <FaPlus size={20} />
             Product
@@ -69,6 +77,7 @@ const Sidebar = ({ setIsOpen, isOpen }) => {
           <Link
             to="/"
             className="text-gray-300 hover:bg-gray-700 hover:text-white p-2 rounded-md cursor-pointer flex items-center gap-2"
+            onClick={handleClose}
           >
             <IoSettingsOutline size={20} />
             Settings
@@ -80,6 +89,7 @@ const Sidebar = ({ setIsOpen, isOpen }) => {
             <TbLogout2 size={20} />
             Logout
           </button>
+
         </div>
       </div>
     </div>

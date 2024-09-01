@@ -10,7 +10,11 @@ import { FiUser } from "react-icons/fi";
 
 const Navbar = ({ isOpen, setIsOpen }) => {
   const { authUser } = useAuthContet();
+  const [ image, setImage ] = useState(false);
   const { theme, toggleTheme } = useTheme();
+  const handleImageLoad = ()=>{
+    setImage(true);
+  }
   return (
     <nav className="bg-gray-800 px-4 md:px-8 py-4 text-white fixed w-full top-0 z-10">
       <div className="mx-auto flex justify-between items-center">
@@ -25,7 +29,8 @@ const Navbar = ({ isOpen, setIsOpen }) => {
               <img
                 src={authUser.profilePic ? authUser.profilePic : authUser.gender === 'male' ? `/logo/woman.png` : `/logo/profile.png`}
                 alt="user-image"
-                className="w-10 h-10 rounded-full object-cover object-top"
+                className={`w-10 h-10 rounded-full object-cover object-top ${image ? "blur-0" : "blur-md"}`}
+                onLoad={handleImageLoad}
               />
             </div>
             <div className="hidden md:block">
