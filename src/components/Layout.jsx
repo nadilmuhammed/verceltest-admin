@@ -46,7 +46,7 @@ const Layout = ({ children }) => {
             handleClose={handleClose}
           />
           <main
-            className={`flex-1 px-4 md:px-8 py-4 mt-10 ml-64 ${
+            className={`flex-1 px-4 md:px-8 py-4 mt-10 ml-64 overflow-x-auto ${
               isOpen ? "ml-[0px] md:ml-64" : "ml-[0px]"
             }`}
           >

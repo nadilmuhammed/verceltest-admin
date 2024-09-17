@@ -5,6 +5,7 @@ import Homepage from "./pages/homepage/Homepage";
 import { useAuthContet } from "./context/AuthContext";
 import User from "./pages/users/User";
 import Profile from "./pages/profile/Profile";
+import Product from "./pages/product/Product";
 
 function App() {
   const { authUser } = useAuthContet();
@@ -18,6 +19,7 @@ function App() {
             <Route path="/" element={<Homepage />} />
             <Route path="/users" element={<User />} />
             <Route path="/profile/:id" element={<Profile />} />
+            <Route path="/product" element={<Product />} />
           </Route>
           <Route
             path="/login"

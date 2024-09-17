@@ -33,16 +33,13 @@ const Navbar = ({ isOpen, setIsOpen }) => {
                 onLoad={handleImageLoad}
               />
             </div>
-            <div className="hidden md:block">
-              <h1 className="text-xl">{authUser?.username}</h1>
-            </div>
         </div>
         <div className="flex items-center gap-5">
-          <Link to={`/profile/${authUser._id}`}>
-            <FiUser size={25}/>
+          <Link to={`/profile/${authUser._id}`} className="hover:scale-110 transition duration-150">
+            <FiUser size={20}/>
           </Link>
           <div>
-            <IoMdNotificationsOutline size={25} />
+            <IoMdNotificationsOutline size={20} className="hover:scale-110 transition duration-150"/>
           </div>
 
           {/* toggle theme */}
@@ -50,12 +47,12 @@ const Navbar = ({ isOpen, setIsOpen }) => {
             <input
               type="checkbox"
               className="theme-controller"
-              checked={theme === "night"}
+              checked={theme === "dark"}
               onChange={toggleTheme}
               value={theme}
             />
-            <FiSun className="swap-off text-yellow-300" size={25} />
-            <IoMoonOutline className="swap-on" size={25} />
+            <FiSun className="swap-off text-yellow-300 hover:scale-110 transition duration-150" size={20} />
+            <IoMoonOutline className="swap-on hover:scale-110 transition duration-150" size={20} />
           </label>
         </div>
       </div>

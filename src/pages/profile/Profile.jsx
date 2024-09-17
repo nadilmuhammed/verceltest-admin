@@ -50,6 +50,8 @@ const Profile = () => {
     reader.readAsDataURL(file);
   };
 
+  console.log(store.profilePic,"pics");
+
   const handleClick = (e) => {
     e.preventDefault();
     document.getElementById("profilePicInput").click();
@@ -80,18 +82,19 @@ const Profile = () => {
       setLoading(true);
       let oldProfilePicUrl = store.profilePic;
       let downloadURL = oldProfilePicUrl; // Default to existing image URL
+      const storage = getStorage(app);
       if (profilePic) {
-        const storage = getStorage(app);
 
         // Delete the old profile picture from Firebase Storage
         if (oldProfilePicUrl) {
+          console.log(oldProfilePicUrl,"old image");
           const oldImageRef = ref(storage, oldProfilePicUrl);
           await deleteObject(oldImageRef).catch((error) => {
             console.error("Error deleting old image: ", error);
           });
         }
 
-        const storageRef = ref(storage, "adminimages/" + profilePic.name);
+        const storageRef = ref(storage, `adminimages/${profilePic.name}`);
         await uploadBytes(storageRef, profilePic);
         downloadURL = await getDownloadURL(storageRef);
       }
@@ -177,7 +180,7 @@ const Profile = () => {
                       : "/logo/woman.png"
                   }
                   alt="profile-pic"
-                  className="w-32 h-32 cursor-pointer rounded-full object-cover object-top border-2 border-gray-300"
+                  className="w-32 h-32 cursor-pointer rounded-full object-cover object-top border-2 border-gray-300 shadow-md"
                 />
                 <input
                   type="file"

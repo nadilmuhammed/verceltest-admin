@@ -19,41 +19,52 @@ const User = () => {
 
   return (
     <>
-      <h1>User Details</h1>
-    <div className="flex justify-center">
-      <div className="overflow-x-auto w-full">
-        <table className="min-w-full bg-white border border-gray-300">
+      <h1 className="text-center text-3xl">User Details</h1>
+      <div className="overflow-x-auto mt-10">
+        <table className="table">
+          {/* head */}
           <thead>
             <tr>
-              <th className="px-6 py-3 border-b border-gray-300 text-left text-sm font-medium text-gray-700">Name</th>
-              <th className="px-6 py-3 border-b border-gray-300 text-left text-sm font-medium text-gray-700">Job</th>
-              <th className="px-6 py-3 border-b border-gray-300 text-left text-sm font-medium text-gray-700">Favor</th>
+              <th>Name</th>
+              <th>Job</th>
+              <th>Favorite Color</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
-            {users.map((user) => (
-              <tr key={user.id}>
-                <td className="px-6 py-4 border-b border-gray-300 flex items-center">
-                  <img
-                    className="h-10 w-10 rounded-full mr-3"
-                    src={user.image}
-                    alt={`${user.name}'s profile`}
-                  />
-                  <span className="text-sm text-gray-800">{user.name}</span>
-                </td>
-                <td className="px-6 py-4 border-b border-gray-300 text-sm text-gray-800">
-                  {user.email}
-                </td>
-                <td className="px-6 py-4 border-b border-gray-300 text-sm text-gray-800">
-                  <button className="text-blue-500 hover:underline">Edit</button>
-                  <button className="ml-4 text-red-500 hover:underline">Delete</button>
-                </td>
-              </tr>
-            ))}
+            <tr>
+              <td>
+                <div className="flex items-center gap-3">
+                  <div className="avatar">
+                    <div className="mask mask-squircle h-12 w-12">
+                      <img
+                        src="https://img.daisyui.com/images/profile/demo/2@94.webp"
+                        alt="Avatar Tailwind CSS Component"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <div className="font-bold">Hart Hagerty</div>
+                    <div className="text-sm opacity-50">United States</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                Zemlak, Daniel and Leannon
+                <br />
+                <span className="badge badge-ghost badge-sm">
+                  Desktop Support Technician
+                </span>
+              </td>
+              <td>Purple</td>
+              <th>
+                <button className="btn btn-ghost btn-xs">details</button>
+              </th>
+            </tr>
+            
           </tbody>
         </table>
       </div>
-    </div>
     </>
   );
 };

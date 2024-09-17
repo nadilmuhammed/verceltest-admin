@@ -1,12 +1,12 @@
 import React from "react";
 import { useState } from "react";
-import axios from "axios"
-import toast from "react-hot-toast"
+import axios from "axios";
+import toast from "react-hot-toast";
 import { useAuthContet } from "../../context/AuthContext";
 
 const Login = () => {
   const { setAuthUser } = useAuthContet();
-  const [ loading, setLoading ] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [store, setStore] = useState({
     username: "",
     email: "",
@@ -32,7 +32,7 @@ const Login = () => {
     }));
   };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let hasErrors = false;
     const newErrors = {};
@@ -50,32 +50,32 @@ const Login = () => {
     try {
       // API call to login
       setLoading(true);
-    const response = await axios.post('/api/api/admin/login', {
-      username: store.username,
-      email: store.email,
-      password: store.password
-    })
-    const res = response.data;
-    if(res.error){
-      throw new Error(res.error)
-    }
-    if(res.role === 'admin'){
-      localStorage.setItem('token', JSON.stringify(res) )
-      setAuthUser(response.data)
-      toast.success('Logged in')
-      setStore({
-        username: "",
-        email: "",
-        password: "",
-      })
-    }else{
-      toast.error('You are not authorised to access this page')
-    }
+      const response = await axios.post("/api/api/admin/login", {
+        username: store.username,
+        email: store.email,
+        password: store.password,
+      });
+      const res = response.data;
+      if (res.error) {
+        throw new Error(res.error);
+      }
+      if (res.role === "admin") {
+        localStorage.setItem("token", JSON.stringify(res));
+        setAuthUser(response.data);
+        toast.success("Logged in");
+        setStore({
+          username: "",
+          email: "",
+          password: "",
+        });
+      } else {
+        toast.error("You are not authorised to access this page");
+      }
     } catch (error) {
       console.log(error.message);
-      toast.error(error.response.data.error)
-    }finally{
-      setLoading(false)
+      toast.error(error.response.data.error);
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -139,9 +139,15 @@ const Login = () => {
             </div>
             <button
               type="submit"
-              className="px-5 py-2 rounded text-white bg-black"
+              className="px-5 py-2 rounded text-white bg-black flex items-center gap-2"
             >
-              Login
+              {loading ? (
+
+                <div className="loading loading-spinner w-5 h-5"></div>
+              ): (
+
+              <span>Login</span>
+              )}
             </button>
           </form>
         </div>
